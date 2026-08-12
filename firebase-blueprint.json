@@ -1,0 +1,72 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with role",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "role": { "type": "string", "enum": ["admin", "doctor", "tech", "staff"] }
+      },
+      "required": ["email", "name", "role"]
+    },
+    "Shift": {
+      "title": "Shift",
+      "description": "Employee shift",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "startTime": { "type": "string" },
+        "endTime": { "type": "string" },
+        "shiftType": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["userId", "startTime", "endTime", "shiftType"]
+    },
+    "Appointment": {
+      "title": "Appointment",
+      "description": "Clinic appointment",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 200 },
+        "startTime": { "type": "string" },
+        "endTime": { "type": "string" },
+        "doctorId": { "type": "string", "maxLength": 128 },
+        "techId": { "type": "string", "maxLength": 128 },
+        "patientName": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["title", "startTime", "endTime", "doctorId", "patientName"]
+    },
+    "TimeOffRequest": {
+      "title": "TimeOffRequest",
+      "description": "Time off request for employee",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "startDate": { "type": "string" },
+        "endDate": { "type": "string" },
+        "reason": { "type": "string", "maxLength": 500 },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] }
+      },
+      "required": ["userId", "startDate", "endDate", "reason", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profiles"
+    },
+    "/shifts/{shiftId}": {
+      "schema": { "$ref": "#/entities/Shift" },
+      "description": "All shifts"
+    },
+    "/appointments/{appointmentId}": {
+      "schema": { "$ref": "#/entities/Appointment" },
+      "description": "Appointments"
+    },
+    "/timeOffRequests/{requestId}": {
+      "schema": { "$ref": "#/entities/TimeOffRequest" },
+      "description": "Time off requests"
+    }
+  }
+}
